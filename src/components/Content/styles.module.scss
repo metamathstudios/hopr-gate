@@ -1,0 +1,310 @@
+.content {
+  width: 100%;
+  height: calc(100vh - 70px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  bottom: 0;
+
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    .menu {
+      background-color: var(--white);
+      color: black;
+      box-shadow: 0px 4px 10px 3px rgba(0, 0, 0, 0.15);
+      border-radius: 8px;
+      display: flex;
+      margin-bottom: 40px;
+
+      .user {
+        width: 230px;
+        height: 45px;
+        border-radius: 8px;
+        color: white;
+        margin: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .relayer {
+        width: 230px;
+        height: 45px;
+        background-color: green;
+        color: white;
+        margin: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+      }
+    }
+
+    .interface {
+      width: 800px;
+      height: 500px;
+      box-shadow: 0px 4px 10px 3px rgba(0, 0, 0, 0.15);
+      border-radius: 8px;
+
+      .columns {
+        width: 100%;
+        display: flex;
+
+        .left {
+          width: 400px;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding-top: 25px;
+          flex-direction: column;
+
+          .form {
+            width: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+
+            .relayerSelect {
+              width: 333px;
+              margin-top: 5px;
+
+              .title {
+                padding-bottom: 5px;
+
+                label {
+                  color: black;
+                  font-size: 14px;
+                }
+              }
+            }
+
+            .method {
+              width: 333px;
+              margin-top: 30px;
+
+              .title {
+                padding-bottom: 5px;
+
+                label {
+                  color: black;
+                  font-size: 14px;
+                }
+              }
+            }
+
+            .apiURL {
+              width: 333px;
+              margin-top: 5px;
+
+              .title {
+                padding-bottom: 5px;
+
+                label {
+                  color: black;
+                  font-size: 14px;
+                }
+              }
+
+              input {
+                width: 100%;
+                height: 38px;
+                border-radius: 0.28571429rem;
+                border: 1px solid rgba(192, 192, 192, 1);
+                outline: none;
+                padding: 10px;
+              }
+            }
+
+            .apiKEY {
+              width: 333px;
+              margin-top: 30px;
+
+              .title {
+                padding-bottom: 5px;
+
+                label {
+                  color: black;
+                  font-size: 14px;
+                }
+              }
+
+              input {
+                width: 100%;
+                height: 38px;
+                border-radius: 0.28571429rem;
+                border: 1px solid rgba(192, 192, 192, 1);
+                outline: none;
+                padding: 10px;
+              }
+            }
+
+            .apiENDPOINT {
+              width: 333px;
+              margin-top: 30px;
+
+              .title {
+                padding-bottom: 5px;
+
+                label {
+                  color: black;
+                  font-size: 14px;
+                }
+              }
+
+              input {
+                width: 100%;
+                height: 38px;
+                border-radius: 0.28571429rem;
+                border: 1px solid rgba(192, 192, 192, 1);
+                outline: none;
+                padding: 10px;
+              }
+            }
+
+            .relayerStatus {
+              width: 333px;
+              margin-top: 30px;
+              display: flex;
+              align-items: center;
+              font-size: 13px;
+              color: black;
+
+              .ball {
+                width: 12px;
+                height: 12px;
+                border-radius: 20px;
+                margin-right: 6px;
+              }
+            }
+          }
+
+          .saveButton {
+            width: 333px;
+            background: linear-gradient(180deg, #000000 0%, #0101b5 100%);
+            border-radius: 10px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-bottom: 30px;
+          }
+        }
+
+        .right {
+          width: 400px;
+          padding-top: 25px;
+
+          .preview {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+
+            .title {
+              margin-bottom: 5px;
+              display: flex;
+              align-items: center;
+              justify-content: flex-start;
+              width: 100%;
+              max-width: 330px;
+
+              label {
+                color: black;
+                font-size: 14px;
+              }
+            }
+
+            textarea {
+              resize: none;
+              border-radius: 10px;
+              border-color: rgba(192, 192, 192, 1);
+              padding: 10px;
+              max-width: 333px;
+              max-height: 162px;
+            }
+          }
+
+          .response {
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+
+            .title {
+              margin-bottom: 5px;
+              display: flex;
+              align-items: center;
+              justify-content: flex-start;
+              width: 100%;
+              max-width: 330px;
+
+              label {
+                color: black;
+                font-size: 14px;
+              }
+            }
+
+            textarea {
+              resize: none;
+              border-radius: 10px;
+              border-color: rgba(192, 192, 192, 1);
+              padding: 10px;
+              max-width: 333px;
+              max-height: 162px;
+            }
+          }
+
+          .logs {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+
+            .title {
+              margin-bottom: 5px;
+              display: flex;
+              align-items: center;
+              justify-content: flex-start;
+              width: 100%;
+              max-width: 330px;
+
+              label {
+                color: black;
+                font-size: 14px;
+              }
+            }
+
+            textarea {
+              resize: none;
+              border-radius: 10px;
+              border-color: rgba(192, 192, 192, 1);
+              padding: 10px;
+              max-width: 333px;
+              max-height: 420px;
+            }
+          }
+        }
+      }
+
+      .sendButton {
+        background: linear-gradient(180deg, #000000 0%, #0101b5 100%);
+        border-radius: 8px;
+        margin: 20px;
+        height: 55px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+    }
+  }
+}
