@@ -1,12 +1,16 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./global/App";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Relayer from "./pages/Relayer";
+import User from "./pages/User";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Relayer />} />
+      <Route path="/user" element={<User />} />
+    </Routes>
+  </BrowserRouter>
 );
