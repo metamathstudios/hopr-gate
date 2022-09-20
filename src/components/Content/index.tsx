@@ -544,7 +544,7 @@ const Content: React.FC<ComponentType> = (props: ComponentType) => {
                             type="text"
                             name="BLOCK_HASH"
                             id="BLOCK_HASH"
-                            placeholder="0*9af413..."
+                            placeholder="0x9af413..."
                           />
                         </div>
 
