@@ -68,6 +68,22 @@
             justify-content: center;
             flex-direction: column;
 
+            .relayerStatus {
+              width: 330px;
+              color: black;
+              display: flex;
+              align-items: center;
+              justify-content: flex-start;
+              margin-top: 20px;
+
+              .ball {
+                width: 14px;
+                height: 14px;
+                border-radius: 15px;
+                margin-right: 5px;
+              }
+            }
+
             .dropdown {
               width: 333px;
               margin-top: 15px;
