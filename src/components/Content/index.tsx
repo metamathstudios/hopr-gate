@@ -12,6 +12,13 @@ const Content: React.FC<ComponentType> = (props: ComponentType) => {
   const route = useLocation();
   const navigate = useNavigate();
   const [relayerStatus, setRelayerStatus] = useState(false);
+  const [method, setMethod] = useState("");
+
+  const onChangeMethod = (event: any, data: any) => {
+    console.log(event.target.innerText);
+    setMethod(event.target.innerText);
+    console.log(method);
+  };
 
   return (
     <section className={styles.content}>
@@ -66,7 +73,7 @@ const Content: React.FC<ComponentType> = (props: ComponentType) => {
               <div className={styles.columns} style={{ height: "500px" }}>
                 <div className={styles.left}>
                   <div className={styles.form}>
-                    <div className={styles.apiURL}>
+                    <div className={styles.input}>
                       <div className={styles.title}>
                         <label>Relayer API URL:</label>
                       </div>
@@ -77,7 +84,7 @@ const Content: React.FC<ComponentType> = (props: ComponentType) => {
                       />
                     </div>
 
-                    <div className={styles.apiKEY}>
+                    <div className={styles.input}>
                       <div className={styles.title}>
                         <label>Relayer API KEY:</label>
                       </div>
@@ -88,7 +95,7 @@ const Content: React.FC<ComponentType> = (props: ComponentType) => {
                       />
                     </div>
 
-                    <div className={styles.apiENDPOINT}>
+                    <div className={styles.input}>
                       <div className={styles.title}>
                         <label>Relayer RPC Endpoint:</label>
                       </div>
@@ -133,10 +140,10 @@ const Content: React.FC<ComponentType> = (props: ComponentType) => {
 
           {props.interfaceType === "USER" && (
             <>
-              <div className={styles.columns} style={{ height: "410px" }}>
+              <div className={styles.columns}>
                 <div className={styles.left}>
                   <div className={styles.form}>
-                    <div className={styles.relayerSelect}>
+                    <div className={styles.dropdown}>
                       <div className={styles.title}>
                         <label>Relayer Address:</label>
                       </div>
@@ -147,7 +154,7 @@ const Content: React.FC<ComponentType> = (props: ComponentType) => {
                       />
                     </div>
 
-                    <div className={styles.method}>
+                    <div className={styles.dropdown}>
                       <div className={styles.title}>
                         <label>Method:</label>
                       </div>
@@ -155,8 +162,615 @@ const Content: React.FC<ComponentType> = (props: ComponentType) => {
                         fluid
                         selection
                         options={MethodDropdownOptions}
+                        onChange={onChangeMethod}
                       />
                     </div>
+
+                    {method === "eth_call" && (
+                      <div className={styles.parameters}>
+                        <span className={styles.spanTitle}>Parameters</span>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>From</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="FROM_ADDRESS"
+                            id="FROM_ADDRESS"
+                            placeholder="0xd313..."
+                          />
+                        </div>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>To*</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="TO_ADDRESS"
+                            id="TO_ADDRESS"
+                            placeholder="0xd313..."
+                          />
+                        </div>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>Gas</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="GAS"
+                            id="GAS"
+                            placeholder="128, 0*80"
+                          />
+                        </div>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>Gas Price</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="GAS_PRICE"
+                            id="GAS_PRICE"
+                            placeholder="128, 0*80"
+                          />
+                        </div>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>Value</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="VALUE"
+                            id="VALUE"
+                            placeholder="128, 0*80"
+                          />
+                        </div>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>Data</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="DATA"
+                            id="DATA"
+                            placeholder="0*00..."
+                          />
+                        </div>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>Block Number</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="BLOCK_NUMBER"
+                            id="BLOCK_NUMBER"
+                            value="latest"
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {method === "eth_estimateGas" && (
+                      <div className={styles.parameters}>
+                        <span className={styles.spanTitle}>Parameters</span>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>From</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="FROM_ADDRESS"
+                            id="FROM_ADDRESS"
+                            placeholder="0xd313..."
+                          />
+                        </div>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>To*</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="TO_ADDRESS"
+                            id="TO_ADDRESS"
+                            placeholder="0xd313..."
+                          />
+                        </div>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>Gas</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="GAS"
+                            id="GAS"
+                            placeholder="128, 0*80"
+                          />
+                        </div>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>Gas Price</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="GAS_PRICE"
+                            id="GAS_PRICE"
+                            placeholder="128, 0*80"
+                          />
+                        </div>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>Value</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="VALUE"
+                            id="VALUE"
+                            placeholder="128, 0*80"
+                          />
+                        </div>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>Data</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="DATA"
+                            id="DATA"
+                            placeholder="0*00..."
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {method === "eth_getBalance" && (
+                      <div className={styles.parameters}>
+                        <span className={styles.spanTitle}>Parameters</span>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>Address</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="ADDRESS"
+                            id="ADDRESS"
+                            placeholder="0xd313..."
+                          />
+                        </div>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>Block Number</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="BLOCK_NUMBER"
+                            id="BLOCK_NUMBER"
+                            value="latest"
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {method === "eth_getBlockByHash" && (
+                      <div className={styles.parameters}>
+                        <span className={styles.spanTitle}>Parameters</span>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>Block Hash</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="BLOCK_HASH"
+                            id="BLOCK_HASH"
+                            placeholder="0x9af413..."
+                          />
+                        </div>
+
+                        <div className={styles.checkbox}>
+                          <input
+                            type="checkbox"
+                            name="TRANSACTION_OBJECT"
+                            id="TRANSACTION_OBJECT"
+                            value="latest"
+                          />
+                          <div className={styles.title}>
+                            <label>Transaction Object</label>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {method === "eth_getBlockByNumber" && (
+                      <div className={styles.parameters}>
+                        <span className={styles.spanTitle}>Parameters</span>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>Block Hash</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="BLOCK_HASH"
+                            id="BLOCK_HASH"
+                            placeholder="0x9af413..."
+                          />
+                        </div>
+
+                        <div className={styles.checkbox}>
+                          <input
+                            type="checkbox"
+                            name="TRANSACTION_OBJECT"
+                            id="TRANSACTION_OBJECT"
+                            value="latest"
+                          />
+                          <div className={styles.title}>
+                            <label>Transaction Object</label>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {method === "eth_getBlockTransactionCountByHash" && (
+                      <div className={styles.parameters}>
+                        <span className={styles.spanTitle}>Parameters</span>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>Block Hash</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="BLOCK_HASH"
+                            id="BLOCK_HASH"
+                            placeholder="0x9af413..."
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {method === "eth_getBlockTransactionCountByNumber" && (
+                      <div className={styles.parameters}>
+                        <span className={styles.spanTitle}>Parameters</span>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>Block Hash</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="BLOCK_HASH"
+                            id="BLOCK_HASH"
+                            placeholder="0x9af413..."
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {method === "eth_getCode" && (
+                      <div className={styles.parameters}>
+                        <span className={styles.spanTitle}>Parameters</span>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>Address</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="BLOCK_HASH"
+                            id="BLOCK_HASH"
+                            placeholder="0xd313..."
+                          />
+                        </div>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>Block Number</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="BLOCK_NUMBER"
+                            id="BLOCK_NUMBER"
+                            value="latest"
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {method === "eth_getStorageAt" && (
+                      <div className={styles.parameters}>
+                        <span className={styles.spanTitle}>Parameters</span>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>Address</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="ADDRESS"
+                            id="ADDRESS"
+                            placeholder="0xd313..."
+                          />
+                        </div>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>Index</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="INDEX"
+                            id="INDEX"
+                            placeholder="128, 0*80"
+                          />
+                        </div>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>Block Number</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="BLOCK_NUMBER"
+                            id="BLOCK_NUMBER"
+                            value="latest"
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {method === "eth_getTransactionByBlockHashAndIndex" && (
+                      <div className={styles.parameters}>
+                        <span className={styles.spanTitle}>Parameters</span>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>Block Hash</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="BLOCK_HASH"
+                            id="BLOCK_HASH"
+                            placeholder="0*9af413..."
+                          />
+                        </div>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>Index</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="INDEX"
+                            id="INDEX"
+                            placeholder="128, 0*80"
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {method === "eth_getTransactionByBlockNumberAndIndex" && (
+                      <div className={styles.parameters}>
+                        <span className={styles.spanTitle}>Parameters</span>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>Block Number</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="BLOCK_NUMBER"
+                            id="BLOCK_NUMBER"
+                            value="latest"
+                          />
+                        </div>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>Index</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="INDEX"
+                            id="INDEX"
+                            placeholder="128, 0*80"
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {method === "eth_getTransactionByHash" && (
+                      <div className={styles.parameters}>
+                        <span className={styles.spanTitle}>Parameters</span>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>Transaction Hash</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="TRANSACTION_HASH"
+                            id="TRANSACTION_HASH"
+                            placeholder="0*9af413..."
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {method === "eth_getTransactionCount" && (
+                      <div className={styles.parameters}>
+                        <span className={styles.spanTitle}>Parameters</span>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>Address</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="ADDRESS"
+                            id="ADDRESS"
+                            placeholder="0xd313..."
+                          />
+                        </div>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>Block Number</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="BLOCK_NUMBER"
+                            id="BLOCK_NUMBER"
+                            value="latest"
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {method === "eth_getTransactionReceipt" && (
+                      <div className={styles.parameters}>
+                        <span className={styles.spanTitle}>Parameters</span>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>Transaction Hash</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="TRANSACTION_HASH"
+                            id="TRANSACTION_HASH"
+                            placeholder="0*9af413..."
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {method === "eth_getUncleByBlockHashAndIndex" && (
+                      <div className={styles.parameters}>
+                        <span className={styles.spanTitle}>Parameters</span>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>Block Hash</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="BLOCK_HASH"
+                            id="BLOCK_HASH"
+                            placeholder="0x9af413..."
+                          />
+                        </div>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>Index</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="INDEX"
+                            id="INDEX"
+                            placeholder="128, 0*80"
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {method === "eth_getUncleByBlockNumberAndIndex" && (
+                      <div className={styles.parameters}>
+                        <span className={styles.spanTitle}>Parameters</span>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>Block Number</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="BLOCK_Number"
+                            id="BLOCK_Number"
+                            value="latest"
+                          />
+                        </div>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>Index</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="INDEX"
+                            id="INDEX"
+                            placeholder="128, 0*80"
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {method === "eth_getUncleCountByBlockHash" && (
+                      <div className={styles.parameters}>
+                        <span className={styles.spanTitle}>Parameters</span>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>Block Hash</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="BLOCK_HASH"
+                            id="BLOCK_HASH"
+                            placeholder="0x9af413..."
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {method === "eth_getUncleCountByBlockNumber" && (
+                      <div className={styles.parameters}>
+                        <span className={styles.spanTitle}>Parameters</span>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>Block Number</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="BLOCK_NUMBER"
+                            id="BLOCK_NUMBER"
+                            value="latest"
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {method === "eth_sendRawTransaction" && (
+                      <div className={styles.parameters}>
+                        <span className={styles.spanTitle}>Parameters</span>
+
+                        <div className={styles.input}>
+                          <div className={styles.title}>
+                            <label>Data</label>
+                          </div>
+                          <input
+                            type="text"
+                            name="DATA"
+                            id="DATA"
+                            value="0x0"
+                          />
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className={styles.right}>
