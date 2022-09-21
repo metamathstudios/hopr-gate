@@ -8,7 +8,7 @@ export const accountAddress = (endpoint: string, headers: Headers) =>
     })
       .then((res) => res.json())
       .then((data) => {
-        console.info("Fetched PeerId", data.hoprAddress);
+        console.info("Fetched User PeerId", data.hoprAddress);
         setPeerId((draft) => {
           draft.myPeerId = data.hoprAddress;
           return draft;

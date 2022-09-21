@@ -6,11 +6,12 @@ import User from "./pages/User";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
 root.render(
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<Relayer />} />
-      <Route path="/user" element={<User />} />
+      <Route path="/" element={<Relayer />}></Route>
+      <Route path="/user" element={<User />}></Route>
     </Routes>
   </BrowserRouter>
 );

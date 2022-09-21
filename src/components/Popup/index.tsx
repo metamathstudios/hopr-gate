@@ -1,11 +1,23 @@
 import React, { useContext, useState } from "react";
 import { AppContext } from "../../contexts/AppContext";
+import { getUserConfig } from "../../lib/url";
 import styles from "./styles.module.scss";
 
 const Popup: React.FC = () => {
   const { setPopup } = useContext(AppContext);
-  const [ url, setUrl ] = useState('');
-  const [ token, setToken ] = useState('');
+  const userConfig = getUserConfig();
+  const [ url, setUrl ] = useState(userConfig.apiEndpoint);
+  const [ token, setToken ] = useState(userConfig.apiToken);
+
+  const handleSave = () => {
+    const userData = {
+      apiEndpoint: url,
+      apiToken: token,
+    };
+    localStorage.setItem("userData", JSON.stringify(userData));
+    setPopup(false);
+    window.location.reload();
+  }
 
   return (
     <div className={styles.popup}>
@@ -32,7 +44,7 @@ const Popup: React.FC = () => {
             <input type="text" name="API_URL" id="SETTINGS_API_URL" value={token} onChange={(e) => setToken(e.target.value)}/>
           </div>
 
-          <div className={styles.saveButton} onClick={() => console.log(url + token)}>Save</div>
+          <div className={styles.saveButton} onClick={handleSave}>Save</div>
         </div>
       </div>
     </div>

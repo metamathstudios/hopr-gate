@@ -1,9 +1,12 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { AppContext } from "../../contexts/AppContext";
+import { WebsocketContext } from "../../contexts/WebsocketProvider";
 import styles from "./styles.module.scss";
 
 const Header: React.FC = () => {
   const { setPopup } = useContext(AppContext);
+  const { myPeerId } = useContext(WebsocketContext);
+  const id = myPeerId ? `${myPeerId?.slice(0, 12)}...` : "Not Connected";
 
   return (
     <nav className={styles.header}>
@@ -12,7 +15,7 @@ const Header: React.FC = () => {
           <img src="/images/logo.svg" alt="Logo" />
         </div>
         <div className={styles.right}>
-          <span>Not connected</span>
+          <span>{id}</span>
           <img
             src="/images/gear.svg"
             alt="Logo"
