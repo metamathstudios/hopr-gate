@@ -33,35 +33,36 @@ const useAppState = () => {
       }
       return draft;
     });
+  }
+
+    const decodeMessage = (msg: string): string => {
+      let uint8Array = new Uint8Array(JSON.parse(`[${msg}]`));
+      let decodedArray = decode(uint8Array);
+      if (decodedArray[0] instanceof Uint8Array) {
+        return new TextDecoder().decode(decodedArray[0]);
+      }
+      throw Error(`Could not decode received message: ${msg}`);
+    };
+
+    const handleReceivedMessage = async (ev: MessageEvent<string>) => {
+      try {
+        const data = decodeMessage(ev.data);
+        console.log("WebSocket Data: ", data);
+
+        const message = JSON.parse(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    return {
+      state: {
+        ...state,
+      },
+      updateSettings,
+      handleReceivedMessage,
+    };
   };
 
-  const decodeMessage = (msg: string): string => {
-    let uint8Array = new Uint8Array(JSON.parse(`[${msg}]`));
-    let decodedArray = decode(uint8Array);
-    if (decodedArray[0] instanceof Uint8Array) {
-      return new TextDecoder().decode(decodedArray[0]);
-    }
-    throw Error(`Could not decode received message: ${msg}`);
-  };
-
-  const handleReceivedMessage = async (ev: MessageEvent<string>) => {
-    try {
-      const data = decodeMessage(ev.data);
-      console.log("WebSocket Data: ", data);
-
-      const message = JSON.parse(data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  return {
-    state: {
-      ...state,
-    },
-    updateSettings,
-    handleReceivedMessage,
-  };
-};
 
 export default useAppState;

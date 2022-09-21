@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Dropdown } from "semantic-ui-react";
 import { MethodDropdownOptions, RelayerDropdownOptions } from "../../constants";
+import { getRelayerConfig } from "../../lib/url";
+import { sendRpcMethod } from "../../lib/jsonrpc";
 import styles from "./styles.module.scss";
 
 interface ComponentType {
@@ -13,12 +15,36 @@ const Content: React.FC<ComponentType> = (props: ComponentType) => {
   const navigate = useNavigate();
   const [relayerStatus, setRelayerStatus] = useState(false);
   const [method, setMethod] = useState("");
+  const relayerConfig = getRelayerConfig();
+
+  const [relayerApiUrl, setRelayerApiUrl] = useState(relayerConfig.apiEndpoint);
+  const [relayerApiToken, setRelayerApiToken] = useState(relayerConfig.apiToken);
+  const [relayerRpcEndpoint, setRelayerRpcEndpoint] = useState(relayerConfig.rpcEndpoint);
+
+  const [ethPromise, setEthPromise] = useState(null);
+
+  const handleSave = () => {
+    const relayerData = {
+      apiEndpoint: relayerApiUrl,
+      apiToken: relayerApiToken,
+      rpcEndpoint: relayerRpcEndpoint,
+    };
+    localStorage.setItem("relayerData", JSON.stringify(relayerData));
+    window.location.reload();
+  }
 
   const onChangeMethod = (event: any, data: any) => {
     console.log(event.target.innerText);
     setMethod(event.target.innerText);
     console.log(method);
   };
+
+  useEffect(() => {
+    if (relayerApiUrl && relayerApiToken && relayerRpcEndpoint) {
+      setRelayerStatus(true);
+      sendRpcMethod("eth_chainId");
+    }
+  }, [relayerApiUrl, relayerApiToken, relayerRpcEndpoint]);
 
   return (
     <section className={styles.content}>
@@ -81,6 +107,7 @@ const Content: React.FC<ComponentType> = (props: ComponentType) => {
                         type="text"
                         name="RELAYER_API_URL"
                         id="RELAYER_API_URL"
+                        value={relayerApiUrl} onChange={(e) => setRelayerApiUrl(e.target.value)}
                       />
                     </div>
 
@@ -92,6 +119,7 @@ const Content: React.FC<ComponentType> = (props: ComponentType) => {
                         type="text"
                         name="RELAYER_API_KEY"
                         id="RELAYER_API_KEY"
+                        value={relayerApiToken} onChange={(e) => setRelayerApiToken(e.target.value)}
                       />
                     </div>
 
@@ -103,6 +131,7 @@ const Content: React.FC<ComponentType> = (props: ComponentType) => {
                         type="text"
                         name="RELAYER_API_ENDPOINT"
                         id="RELAYER_API_ENDPOINT"
+                        value={relayerRpcEndpoint} onChange={(e) => setRelayerRpcEndpoint(e.target.value)}
                       />
                     </div>
 
@@ -119,7 +148,7 @@ const Content: React.FC<ComponentType> = (props: ComponentType) => {
                     </div>
                   </div>
 
-                  <div className={styles.saveButton}>Save</div>
+                  <div className={styles.saveButton} onClick={handleSave}>Save</div>
                 </div>
                 <div className={styles.right}>
                   <div className={styles.logs}>
