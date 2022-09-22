@@ -1,8 +1,8 @@
 export const MethodDropdownOptions = [
   {
-    key: "eth_BlockNumber",
-    text: "eth_BlockNumber",
-    value: "eth_BlockNumber",
+    key: "eth_blockNumber",
+    text: "eth_blockNumber",
+    value: "eth_blockNumber",
   },
   /*   {
     key: "eth_call",
@@ -24,7 +24,7 @@ export const MethodDropdownOptions = [
     text: "eth_gasPrice",
     value: "eth_gasPrice",
   },
-/*   {
+  /*   {
     key: "eth_getBalance",
     text: "eth_getBalance",
     value: "eth_getBalance",
@@ -129,60 +129,58 @@ export const MethodDropdownOptions = [
     text: "web3_clientVersion",
     value: "web3_clientVersion",
   },
-  {
+/*   {
     key: "web3_sha3",
     text: "web3_sha3",
     value: "web3_sha3",
-  },
+  }, */
 ];
 
 export const MethodFormat = [
   {
-    jsonrpc : "2.0",
-    id : 0,
-    method : "eth_blockNumber",
+    jsonrpc: "2.0",
+    id: 0,
+    method: "eth_blockNumber",
   },
   {
-    jsonrpc : "2.0",
-    id : 0,
-    method : "eth_chainId",
+    jsonrpc: "2.0",
+    id: 0,
+    method: "eth_chainId",
   },
   {
-    jsonrpc : "2.0",
-    id : 0,
-    method : "eth_gasPrice",
+    jsonrpc: "2.0",
+    id: 0,
+    method: "eth_gasPrice",
   },
   {
-    jsonrpc : "2.0",
-    id : 0,
-    method : "net_version",
+    jsonrpc: "2.0",
+    id: 0,
+    method: "net_version",
   },
   {
-    jsonrpc : "2.0",
-    id : 0,
-    method : "net_listening",
+    jsonrpc: "2.0",
+    id: 0,
+    method: "net_listening",
   },
   {
-    jsonrpc : "2.0",
-    id : 0,
-    method : "net_peerCount",
+    jsonrpc: "2.0",
+    id: 0,
+    method: "net_peerCount",
   },
   {
-    jsonrpc : "2.0",
-    id : 0,
-    method : "web3_clientVersion",
+    jsonrpc: "2.0",
+    id: 0,
+    method: "web3_clientVersion",
   },
   {
-    jsonrpc : "2.0",
-    id : 0,
-    method : "web3_sha3",
+    jsonrpc: "2.0",
+    id: 0,
+    method: "web3_sha3",
   },
 ];
 
 export const resultFormat = {
-  jsonrpc : "2.0",
-  id : 0,
-  result : "",
+  jsonrpc: "2.0",
+  id: 0,
+  result: "",
 };
-
-

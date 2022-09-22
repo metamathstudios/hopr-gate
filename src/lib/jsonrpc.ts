@@ -12,3 +12,19 @@ export const sendRpcMethod = async ( method : string, ...args) => {
     return res
   });
 };
+
+const encodeSignedRecipient = (
+  from: string,
+  signature?: string
+): string => {
+  return `${from}${signature ? `-${signature}` : ""}`;
+};
+
+export const encodeMessage = (
+  from: string,
+  message: string,
+  isRelayer: string,
+  signature?: string,
+): string => {
+  return `jsonrpc:${isRelayer}:${encodeSignedRecipient(from, signature)}:${message}`;
+};

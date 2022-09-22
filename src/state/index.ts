@@ -11,6 +11,13 @@ export type State = {
   settings: Settings;
 };
 
+export type RpcCallStruct = {
+  tag: string;
+  from: string;
+  address: string;
+  content: string[];
+};
+
 export const isSSR: boolean = typeof window === "undefined";
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -26,6 +33,13 @@ export const useAppState = () => {
     },
   });
 
+  const [rpcCallAsnwer, setRpcCallAsnwer] = useImmer<RpcCallStruct>({
+    tag: "",
+    from: "",
+    address : "",
+    content: [],
+  });
+
   const updateSettings = (settings: Partial<Settings>) => {
     setState((draft) => {
       for (const [k, v] of Object.entries(settings)) {
@@ -35,11 +49,23 @@ export const useAppState = () => {
     });
   }
 
-    const decodeMessage = (msg: string): string => {
+    const decodeMessage = (msg: string): {
+      tag: string;
+      from: string;
+      address: string;
+      content: string[];
+    } => {
       let uint8Array = new Uint8Array(JSON.parse(`[${msg}]`));
       let decodedArray = decode(uint8Array);
       if (decodedArray[0] instanceof Uint8Array) {
-        return new TextDecoder().decode(decodedArray[0]);
+        const data = new TextDecoder().decode(decodedArray[0]);
+        const [tag, from, address, ...content] = data.split(":");
+        return {
+          tag,
+          from,
+          address,
+          content,
+        };
       }
       throw Error(`Could not decode received message: ${msg}`);
     };
@@ -47,9 +73,16 @@ export const useAppState = () => {
     const handleReceivedMessage = async (ev: MessageEvent<string>) => {
       try {
         const data = decodeMessage(ev.data);
-        console.log("WebSocket Data: ", data);
-
-        const message = JSON.parse(data);
+        if(data.tag === "jsonrpc") {
+        setRpcCallAsnwer((draft) => {
+          draft.tag = data.tag;
+          draft.from = data.from;
+          draft.address = data.address;
+          draft.content = data.content;
+          return draft;
+        });
+        }
+        //const message = JSON.parse(data);
       } catch (err) {
         console.error(err);
       }
@@ -58,6 +91,9 @@ export const useAppState = () => {
     return {
       state: {
         ...state,
+      },
+      rpcCallAsnwer: {
+        ...rpcCallAsnwer
       },
       updateSettings,
       handleReceivedMessage,
@@ -73,15 +109,6 @@ export const useRelayerState = () => {
     }
   });
 
-  const decodeMessage = (msg: string): string => {
-    let uint8Array = new Uint8Array(JSON.parse(`[${msg}]`));
-    let decodedArray = decode(uint8Array);
-    if (decodedArray[0] instanceof Uint8Array) {
-      return new TextDecoder().decode(decodedArray[0]);
-    }
-    throw Error(`Could not decode received message: ${msg}`);
-  };
-
   const updateSettings = (settings: Partial<Settings>) => {
     setRelayerState((draft) => {
       for (const [k, v] of Object.entries(settings)) {
@@ -91,23 +118,11 @@ export const useRelayerState = () => {
     });
   }
 
-  const handleReceivedMessage = async (ev: MessageEvent<string>) => {
-    try {
-      const data = decodeMessage(ev.data);
-      console.log("WebSocket Data: ", data);
-
-      const message = JSON.parse(data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   return {
     relayerState: {
       ...relayerState,
     },
     updateSettings,
-    handleReceivedMessage,
   };
 };
 
