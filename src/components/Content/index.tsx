@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Dropdown } from "semantic-ui-react";
-import { MethodDropdownOptions, RelayerDropdownOptions } from "../../constants";
+import { MethodDropdownOptions } from "../../constants";
 import { getRelayerConfig } from "../../lib/url";
 import { RelayerStateContext } from "../../contexts/RelayerStateProvider";
 import styles from "./styles.module.scss";
@@ -17,10 +17,22 @@ const Content: React.FC<ComponentType> = (props: ComponentType) => {
   const relayerConfig = getRelayerConfig();
 
   const [relayerApiUrl, setRelayerApiUrl] = useState(relayerConfig.apiEndpoint);
-  const [relayerApiToken, setRelayerApiToken] = useState(relayerConfig.apiToken);
-  const [relayerRpcEndpoint, setRelayerRpcEndpoint] = useState(relayerConfig.rpcEndpoint);
+  const [relayerApiToken, setRelayerApiToken] = useState(
+    relayerConfig.apiToken
+  );
+  const [relayerRpcEndpoint, setRelayerRpcEndpoint] = useState(
+    relayerConfig.rpcEndpoint
+  );
 
-  const { relayerStatus } = useContext(RelayerStateContext);
+  const { relayerStatus, eventsList, relayerPeerId } = useContext(RelayerStateContext);
+
+  const relayerDropdown = [
+    {
+      key: `${relayerRpcEndpoint?.slice(8)}@${relayerPeerId?.slice(-12)}`,
+      text: `${relayerRpcEndpoint?.slice(8)}@${relayerPeerId?.slice(-12)}`,
+      value: `${relayerRpcEndpoint?.slice(8)}@${relayerPeerId?.slice(-12)}`,
+    }
+  ];
 
   const handleSave = () => {
     const relayerData = {
@@ -30,13 +42,21 @@ const Content: React.FC<ComponentType> = (props: ComponentType) => {
     };
     localStorage.setItem("relayerData", JSON.stringify(relayerData));
     window.location.reload();
-  }
+  };
 
   const onChangeMethod = (event: any, data: any) => {
     console.log(event.target.innerText);
     setMethod(event.target.innerText);
     console.log(method);
   };
+
+  useEffect(() => {
+    const logs = document.getElementById("logs") as HTMLTextAreaElement;
+
+    if (logs && eventsList.at(-1) !== undefined) {
+      logs.value = eventsList?.at(-1).event;
+    }
+  }, [relayerStatus]);
 
   return (
     <section className={styles.content}>
@@ -99,7 +119,8 @@ const Content: React.FC<ComponentType> = (props: ComponentType) => {
                         type="text"
                         name="RELAYER_API_URL"
                         id="RELAYER_API_URL"
-                        value={relayerApiUrl} onChange={(e) => setRelayerApiUrl(e.target.value)}
+                        value={relayerApiUrl}
+                        onChange={(e) => setRelayerApiUrl(e.target.value)}
                       />
                     </div>
 
@@ -111,7 +132,8 @@ const Content: React.FC<ComponentType> = (props: ComponentType) => {
                         type="text"
                         name="RELAYER_API_KEY"
                         id="RELAYER_API_KEY"
-                        value={relayerApiToken} onChange={(e) => setRelayerApiToken(e.target.value)}
+                        value={relayerApiToken}
+                        onChange={(e) => setRelayerApiToken(e.target.value)}
                       />
                     </div>
 
@@ -123,7 +145,8 @@ const Content: React.FC<ComponentType> = (props: ComponentType) => {
                         type="text"
                         name="RELAYER_API_ENDPOINT"
                         id="RELAYER_API_ENDPOINT"
-                        value={relayerRpcEndpoint} onChange={(e) => setRelayerRpcEndpoint(e.target.value)}
+                        value={relayerRpcEndpoint}
+                        onChange={(e) => setRelayerRpcEndpoint(e.target.value)}
                       />
                     </div>
 
@@ -140,7 +163,9 @@ const Content: React.FC<ComponentType> = (props: ComponentType) => {
                     </div>
                   </div>
 
-                  <div className={styles.saveButton} onClick={handleSave}>Save</div>
+                  <div className={styles.saveButton} onClick={handleSave}>
+                    Save
+                  </div>
                 </div>
                 <div className={styles.right}>
                   <div className={styles.logs}>
@@ -171,7 +196,11 @@ const Content: React.FC<ComponentType> = (props: ComponentType) => {
                       <Dropdown
                         fluid
                         selection
-                        options={RelayerDropdownOptions}
+                        options={relayerStatus ? relayerDropdown : [{
+                          key: "No relayer available",
+                          text: "No relayer available",
+                          value: "No relayer available",
+                        }]}
                       />
                     </div>
 

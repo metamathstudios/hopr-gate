@@ -3,11 +3,18 @@ import useWebsocket, { ConnectionStatus } from "../../state/relayerws";
 import { useRelayerState } from "../../state";
 import { ethers } from "ethers";
 import { getRelayerConfig } from "../../lib/url";
+import useUser from "./../../state/user";
+
+type EventList = {
+    eventId: string;
+    event: string;
+};
 
 interface RelayerStateContext {
   socketRef: React.MutableRefObject<WebSocket>;
   relayerStatus: boolean;
-  eventsList: any[];
+  eventsList: EventList[];
+  relayerPeerId: string;
 }
 
 export const RelayerStateContext = createContext({} as RelayerStateContext);
@@ -19,6 +26,10 @@ const RelayerStateProvider = ({ children }) => {
     updateSettings,
   } = useRelayerState();
 
+  const user = useUser(settings);
+  const { myPeerId } = user?.state;
+
+  const [relayerPeerId, setRelayerPeerId] = useState<string>("");
   const [eventsList, setEventsList] = useState<any[]>([]);
   const [rpcVitals, setRpcVitals] = useState<boolean>(false);
   const [relayerStatus, setRelayerStatus] = useState(false);
@@ -42,13 +53,19 @@ const RelayerStateProvider = ({ children }) => {
     provider.send("eth_chainId", []).then((res) => {
       if(res !== undefined){
         setRpcVitals(true);
-        eventsList.push(res);
+        eventsList.push({
+            eventId: String(Math.floor(Math.random() * 1e18)),
+            event: `Connected to Chain Id: ${parseInt( res, 16 )}`,
+        });
       } else {
         setRpcVitals(false);
       }
     });
-    
   };
+
+  useEffect(() => {
+    setRelayerPeerId(myPeerId);
+    }, [myPeerId]);
 
   useEffect(() => {
       if (connectionStatus === "CONNECTED" && rpcVitals) {
@@ -70,6 +87,7 @@ const RelayerStateProvider = ({ children }) => {
     }
 
     checkRpcVitals();
+    // console.log(eventsList);
 
     if (!socketRef.current) return;
     socketRef.current.addEventListener("message", handleReceivedMessage);
@@ -86,6 +104,7 @@ const RelayerStateProvider = ({ children }) => {
         socketRef,
         relayerStatus,
         eventsList,
+        relayerPeerId,
       }}
     >
       {children}

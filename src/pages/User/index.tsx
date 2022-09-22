@@ -5,6 +5,7 @@ import Header from "../../components/Header";
 import Popup from "../../components/Popup";
 import { AppContext } from "../../contexts/AppContext";
 import WebsocketProvider from "../../contexts/WebsocketProvider";
+import RelayerStateProvider from "../../contexts/RelayerStateProvider";
 import styles from "./styles.module.scss";
 
 const User: React.FC = () => {
@@ -12,14 +13,16 @@ const User: React.FC = () => {
 
   return (
     <WebsocketProvider>
-      <AppContext.Provider value={{ popup, setPopup }}>
-        <div className={styles.app}>
-          <Header />
-          <Content interfaceType="USER" />
-          <Github />
-          {popup && <Popup />}
-        </div>
-      </AppContext.Provider>
+      <RelayerStateProvider>
+        <AppContext.Provider value={{ popup, setPopup }}>
+          <div className={styles.app}>
+            <Header />
+            <Content interfaceType="USER" />
+            <Github />
+            {popup && <Popup />}
+          </div>
+        </AppContext.Provider>
+      </RelayerStateProvider>
     </WebsocketProvider>
   );
 };
