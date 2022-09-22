@@ -12,14 +12,14 @@ const User: React.FC = () => {
 
   return (
     <WebsocketProvider>
-    <AppContext.Provider value={{ popup, setPopup }}>
-      <div className={styles.app}>
-        <Header />
-        <Content interfaceType="USER" />
-        <Github />
-        {popup && <Popup />}
-      </div>
-    </AppContext.Provider>
+      <AppContext.Provider value={{ popup, setPopup }}>
+        <div className={styles.app}>
+          <Header />
+          <Content interfaceType="USER" />
+          <Github />
+          {popup && <Popup />}
+        </div>
+      </AppContext.Provider>
     </WebsocketProvider>
   );
 };

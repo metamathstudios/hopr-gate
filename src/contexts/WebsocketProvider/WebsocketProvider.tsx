@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import useWebsocket, { ConnectionStatus } from "../../state/websocket";
 import useUser from "./../../state/user";
-import useAppState from "./../../state/index";
+import { useAppState } from "./../../state/index";
 
 interface WebsocketContext {
   myPeerId: string;

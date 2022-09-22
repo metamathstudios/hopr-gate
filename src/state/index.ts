@@ -1,6 +1,6 @@
 import { useImmer } from "use-immer";
 import { decode } from "rlp";
-import { getUrlParams } from "../lib/url";
+import { getUrlParams, getRelayerConfig } from "../lib/url";
 
 export type Settings = {
   apiEndpoint: string;
@@ -17,7 +17,7 @@ export const DEFAULT_SETTINGS: Settings = {
   apiEndpoint: "http://localhost:3001",
 };
 
-const useAppState = () => {
+export const useAppState = () => {
   const urlParams = !isSSR ? getUrlParams(window.location) : {};
   const [state, setState] = useImmer<State>({
     settings: {
@@ -64,5 +64,52 @@ const useAppState = () => {
     };
   };
 
+export const useRelayerState = () => {
+  const relayerConfig = getRelayerConfig();
+  const [relayerState, setRelayerState] = useImmer<State>({
+    settings: {
+      apiEndpoint: relayerConfig.apiEndpoint || DEFAULT_SETTINGS.apiEndpoint,
+      apiToken: relayerConfig.apiToken,
+    }
+  });
 
-export default useAppState;
+  const decodeMessage = (msg: string): string => {
+    let uint8Array = new Uint8Array(JSON.parse(`[${msg}]`));
+    let decodedArray = decode(uint8Array);
+    if (decodedArray[0] instanceof Uint8Array) {
+      return new TextDecoder().decode(decodedArray[0]);
+    }
+    throw Error(`Could not decode received message: ${msg}`);
+  };
+
+  const updateSettings = (settings: Partial<Settings>) => {
+    setRelayerState((draft) => {
+      for (const [k, v] of Object.entries(settings)) {
+        (draft.settings as any)[k] = v;
+      }
+      return draft;
+    });
+  }
+
+  const handleReceivedMessage = async (ev: MessageEvent<string>) => {
+    try {
+      const data = decodeMessage(ev.data);
+      console.log("WebSocket Data: ", data);
+
+      const message = JSON.parse(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  return {
+    relayerState: {
+      ...relayerState,
+    },
+    updateSettings,
+    handleReceivedMessage,
+  };
+};
+
+
+// export default useAppState;
