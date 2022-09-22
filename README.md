@@ -1,6 +1,27 @@
+<!-- INTRODUCTION -->
+<p align="center">
+  <a href="https://github.com/metamathstudios" target="_blank" rel="noopener noreferrer">
+    <img width="40%" src="https://user-images.githubusercontent.com/78161484/191833309-70c4d499-eda8-4ec8-9617-d9ec05de4874.png" alt="Hopr Gate Logo">
+  </a>
+   
+  <!-- Title Placeholder -->
+  <p align="center">
+Hopr Gate is a dApp that demonstrates how to send Ethereum RPC calls over HOPR Mixnet. 
+  </p>
+</p>
 
+<div align="center">
 
-## Getting Started with Local Development
+[![License](https://img.shields.io/github/license/metamathstudios/hopr-gate)](#license)
+  
+</div>
+
+# 🧭 Table of contents
+
+- [🧭 Table of contents](#-table-of-contents)
+- [🚀 Getting Started with Local Development](#-getting-started-with-local-development)
+
+## 🚀 Getting Started with Local Development
 
 Chatr requires the following dependencies
 
