@@ -10,12 +10,6 @@ Hopr Gate is a dApp that demonstrates how to send Ethereum RPC calls over HOPR M
   </p>
 </p>
 
-<div align="center">
-
-[![License](https://img.shields.io/github/license/metamathstudios/hopr-gate)](#license)
-  
-</div>
-
 # 🧭 Table of contents
 
 - [🧭 Table of contents](#-table-of-contents)
