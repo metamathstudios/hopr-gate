@@ -22,9 +22,9 @@ Hopr Gate is a dApp that demonstrates how to send Ethereum RPC calls over HOPR M
 Hopr Gate works in 4 simple steps:
 
  <p align="center">
-  <img width="80%" src="https://user-images.githubusercontent.com/78161484/191836037-b15476a1-ac1c-4fac-aa08-d6e82ec2f87e.png" alt="Hopr Gate in 4 steps">
+  <img width="80%" src="https://user-images.githubusercontent.com/78161484/191838872-92af171d-23f0-4478-9f46-6eee0f466903.png" alt="Hopr Gate in 4 steps">
  </p>
-
+ 
  1. Step 1: A RPC Method is requested from an User node to a pre-configured Relayer node. 
  2. Step 2: The Relayer node is connected to a pre-configured RPC endpoint. A RPC method is called over HTTP.
  3. Step 3: The Blockchain which the Relayer is configured to send a response to the remote call over HTTP.
