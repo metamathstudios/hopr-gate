@@ -12,8 +12,8 @@ const User: React.FC = () => {
   const [popup, setPopup] = useState<boolean>(false);
 
   return (
-    <WebsocketProvider>
-      <RelayerStateProvider>
+    <RelayerStateProvider>
+      <WebsocketProvider>
         <AppContext.Provider value={{ popup, setPopup }}>
           <div className={styles.app}>
             <Header />
@@ -22,8 +22,8 @@ const User: React.FC = () => {
             {popup && <Popup />}
           </div>
         </AppContext.Provider>
-      </RelayerStateProvider>
-    </WebsocketProvider>
+      </WebsocketProvider>
+    </RelayerStateProvider>
   );
 };
 

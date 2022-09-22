@@ -4,6 +4,7 @@ import { Dropdown } from "semantic-ui-react";
 import { MethodDropdownOptions } from "../../constants";
 import { getRelayerConfig } from "../../lib/url";
 import { RelayerStateContext } from "../../contexts/RelayerStateProvider";
+import { WebsocketContext } from "../../contexts/WebsocketProvider";
 import styles from "./styles.module.scss";
 
 interface ComponentType {
@@ -25,12 +26,13 @@ const Content: React.FC<ComponentType> = (props: ComponentType) => {
   );
 
   const { relayerStatus, eventsList, relayerPeerId } = useContext(RelayerStateContext);
+  const { handleSendMessage, rpcCallAsnwer } = useContext(WebsocketContext);
 
   const relayerDropdown = [
     {
-      key: `${relayerRpcEndpoint?.slice(8)}@${relayerPeerId?.slice(-12)}`,
-      text: `${relayerRpcEndpoint?.slice(8)}@${relayerPeerId?.slice(-12)}`,
-      value: `${relayerRpcEndpoint?.slice(8)}@${relayerPeerId?.slice(-12)}`,
+      key: `${relayerRpcEndpoint?.slice(8)}@${relayerPeerId?.slice(0, 12)}`,
+      text: `${relayerRpcEndpoint?.slice(8)}@${relayerPeerId?.slice(0, 12)}`,
+      value: `${relayerRpcEndpoint?.slice(8)}@${relayerPeerId?.slice(0, 12)}`,
     }
   ];
 
@@ -45,9 +47,9 @@ const Content: React.FC<ComponentType> = (props: ComponentType) => {
   };
 
   const onChangeMethod = (event: any, data: any) => {
-    console.log(event.target.innerText);
+    // console.log(event.target.innerText);
     setMethod(event.target.innerText);
-    console.log(method);
+    // console.log(method);
   };
 
   useEffect(() => {
@@ -833,6 +835,11 @@ const Content: React.FC<ComponentType> = (props: ComponentType) => {
                       id="preview"
                       cols={45}
                       rows={10}
+                      value={method ? JSON.stringify({
+                        jsonrpc: "2.0",
+                        id: 0,
+                        method: method,
+                      }, undefined, 4) : ""}
                     ></textarea>
                   </div>
 
@@ -845,11 +852,16 @@ const Content: React.FC<ComponentType> = (props: ComponentType) => {
                       id="response"
                       cols={45}
                       rows={10}
+                      value={rpcCallAsnwer ? JSON.stringify({
+                        tag : rpcCallAsnwer.tag,
+                        relayer: `${rpcCallAsnwer.address.slice(0, 12)}...`,
+                        response: rpcCallAsnwer.content[0],
+                      }, undefined, 4) : ""}
                     ></textarea>
                   </div>
                 </div>
               </div>
-              <div className={styles.sendButton}>Send Request</div>
+              <div className={styles.sendButton} onClick={() => { method ? handleSendMessage(method, relayerPeerId) : console.log("No Method Selected!")}}>Send Request</div>
             </>
           )}
         </div>
