@@ -28,7 +28,7 @@ const useWebsocket = (settings: Settings) => {
   }, 1e3);
 
   const handleOpenEvent = () => {
-    console.info("USER CONNECTED");
+    console.info("RELAYER CONNECTED");
     setState((draft) => {
       draft.status = "CONNECTED";
       return draft;
@@ -36,7 +36,7 @@ const useWebsocket = (settings: Settings) => {
   };
 
   const handleCloseEvent = () => {
-    console.info("USER DISCONNECTED");
+    console.info("RELAYER DISCONNECTED");
     setState((draft) => {
       draft.status = "DISCONNECTED";
       return draft;
@@ -45,7 +45,7 @@ const useWebsocket = (settings: Settings) => {
   };
 
   const handleErrorEvent = (e: Event) => {
-    console.error("USER ERROR", e);
+    console.error("RELAYER ERROR", e);
     setState((draft) => {
       draft.status = "DISCONNECTED";
       draft.error = String(e);
@@ -59,7 +59,7 @@ const useWebsocket = (settings: Settings) => {
 
     // disconnect from previous connection
     if (socketRef.current) {
-      console.info("USER Disconnecting..");
+      console.info("RELAYER Disconnecting..");
       socketRef.current.close(1000, "Shutting down");
     }
 
@@ -69,7 +69,7 @@ const useWebsocket = (settings: Settings) => {
     if (settings.apiToken) {
       wsUrl.search = `?apiToken=${settings.apiToken}`;
     }
-    console.info("USER Connecting..");
+    console.info("RELAYER Connecting..");
     socketRef.current = new WebSocket(wsUrl);
 
     // handle connection opening

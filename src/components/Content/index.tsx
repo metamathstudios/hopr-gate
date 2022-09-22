@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Dropdown } from "semantic-ui-react";
 import { MethodDropdownOptions, RelayerDropdownOptions } from "../../constants";
 import { getRelayerConfig } from "../../lib/url";
-import { sendRpcMethod } from "../../lib/jsonrpc";
+import { RelayerStateContext } from "../../contexts/RelayerStateProvider";
 import styles from "./styles.module.scss";
 
 interface ComponentType {
@@ -13,7 +13,6 @@ interface ComponentType {
 const Content: React.FC<ComponentType> = (props: ComponentType) => {
   const route = useLocation();
   const navigate = useNavigate();
-  const [relayerStatus, setRelayerStatus] = useState(false);
   const [method, setMethod] = useState("");
   const relayerConfig = getRelayerConfig();
 
@@ -21,7 +20,7 @@ const Content: React.FC<ComponentType> = (props: ComponentType) => {
   const [relayerApiToken, setRelayerApiToken] = useState(relayerConfig.apiToken);
   const [relayerRpcEndpoint, setRelayerRpcEndpoint] = useState(relayerConfig.rpcEndpoint);
 
-  const [ethPromise, setEthPromise] = useState(null);
+  const { relayerStatus } = useContext(RelayerStateContext);
 
   const handleSave = () => {
     const relayerData = {
@@ -38,13 +37,6 @@ const Content: React.FC<ComponentType> = (props: ComponentType) => {
     setMethod(event.target.innerText);
     console.log(method);
   };
-
-  useEffect(() => {
-    if (relayerApiUrl && relayerApiToken && relayerRpcEndpoint) {
-      setRelayerStatus(true);
-      sendRpcMethod("eth_chainId");
-    }
-  }, [relayerApiUrl, relayerApiToken, relayerRpcEndpoint]);
 
   return (
     <section className={styles.content}>

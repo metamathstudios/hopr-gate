@@ -1,5 +1,4 @@
 import { ethers } from "ethers";
-import { result } from "lodash";
 import { getRelayerConfig } from "./url";
 
 const relayerConfig = getRelayerConfig();
